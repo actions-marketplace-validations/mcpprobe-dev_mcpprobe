@@ -74,9 +74,9 @@ A manually triggered version with a URL input lives in
 
 | Output | Meaning |
 |---|---|
-| `exit-code` | `0`, `1`, `2` or `3` (table below). Available in v0.2.0. |
-| `sarif-file` | Path of the SARIF file. Available in v0.2.0. |
-| `result` | `clean`, `findings`, `error` or `not-mcp`. Added after v0.2.0 (`launch-prep`); use `exit-code` when pinning v0.2.0. |
+| `exit-code` | `0`, `1`, `2` or `3` (table below). Available since v0.2.0. |
+| `sarif-file` | Path of the SARIF file. Available since v0.2.0. |
+| `result` | `clean`, `findings`, `error` or `not-mcp`. Added in v0.3.0; use `exit-code` when pinning v0.2.0. |
 
 ## Exit codes
 
@@ -87,7 +87,7 @@ A manually triggered version with a URL input lives in
 | `2` | `error` | Target unreachable, bad input, the target opted out, or authorisation refused. | Read the step log. Do not upload. |
 | `3` | `not-mcp` | The URL answered, but not as an MCP server (for example an HTML page or the wrong path). Nothing was checked and nothing passed. | Fix the URL or the deployment. Do not upload. |
 
-After v0.2.0 the Action also writes one annotation per run (`mcpprobe: findings`,
+From v0.3.0 the Action also writes one annotation per run (`mcpprobe: findings`,
 `mcpprobe: not an MCP server`, `mcpprobe: scan error`, or a `mcpprobe: passed` notice)
 and a job summary with the outcome and a severity table. With v0.2.0, exit 3 shows in
 the log as `Not an MCP server: ...`, followed by the Docker step failing with exit
@@ -109,7 +109,7 @@ notifications on the analysis, never as passes.
 - **Reachability.** The container runs on the runner's Docker network, so
   `127.0.0.1` inside it is not the runner. To scan a server started earlier in the
   same job, use the CLI instead of the Action:
-  `pipx run --spec mcpprobe-scanner==0.2.0 mcpprobe http://127.0.0.1:8000/mcp --sarif mcpprobe.sarif`.
+  `pipx run --spec mcpprobe-scanner==0.3.0 mcpprobe http://127.0.0.1:8000/mcp --sarif mcpprobe.sarif`.
   For a remote target, it must be reachable from GitHub-hosted runners.
 - **Private repositories** need GitHub Code Security (Advanced Security) for code
   scanning uploads. Without it, keep the scan step as the gate and save
@@ -121,6 +121,6 @@ notifications on the analysis, never as passes.
   plans to deprecate v3; `upload-sarif@v4` takes the same inputs. Switch when your
   organisation does.
 - **Active mode** (`extra-args: --active ...`) also needs `--authorised-by`,
-  `--scope` and `--verify dns-txt`; see the README. In 0.2.0 the active checks are
+  `--scope` and `--verify dns-txt`; see the README. In 0.3.0 the active checks are
   stubs.
 - **Pin a version.** Use `@v0.3.0` (or a full commit SHA), not `@main`.
